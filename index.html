@@ -131,6 +131,7 @@
       top: 50%; 
       transform: translateY(-50%); 
       z-index: 10; 
+      transition: transform 0.3s ease;
     }
     .menu-title{ 
       color: rgba(255,255,255,0.8); 
@@ -177,6 +178,106 @@
     .menu-item.active::before {
       opacity: 1;
       left: 0; /* Move arrow to visible position */
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Mobile Drawer Menu */
+    .mobile-drawer {
+      position: fixed;
+      left: -280px;
+      top: 0;
+      width: 280px;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 1002;
+      transition: left 0.3s ease;
+      padding: 80px 20px 20px;
+      overflow-y: auto;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .mobile-drawer.open {
+      left: 0;
+    }
+
+    .mobile-drawer .menu-title {
+      font-size: 18px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .mobile-drawer .menu-item {
+      padding: 15px 0;
+      font-size: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .mobile-drawer .menu-item.active {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+      padding-left: 15px;
+      border-left: 3px solid #fff;
+    }
+
+    .close-drawer {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Mobile scroll indicator */
+    .mobile-scroll-indicator {
+      display: none;
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 10px 5px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    .mobile-scroll-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-scroll-dot.active {
+      background: rgba(255,255,255,0.9);
+      transform: scale(1.2);
+    }
+
+    .mobile-scroll-indicator:hover {
+      background: rgba(255,255,255,0.15);
     }
 
     .input-section { position: fixed; bottom: 60px; left: 20px; z-index: 10; pointer-events: auto; }
@@ -433,12 +534,17 @@
 
     @media (max-width: 768px) {
       nav, .project-nav{ right:18px; top:18px; }
-      .menu-section { left: 18px; top: auto; bottom: 160px; transform: none; }
+      .menu-section { 
+        display: none; /* Hide desktop menu on mobile */
+      }
       .input-section { left: 18px; bottom: 32px; }
       .butterfly { opacity: 0.12; width: min(80%, 420px); }
       .logo-mark { max-height: 44vh; width: auto; }
       .subtitle { top: calc(50% + 38vw); font-size: 12px; letter-spacing: 6px; }
-      .content-section { padding: 100px 20px 60px; }
+      .content-section { 
+        padding: 80px 20px 60px; 
+        min-height: 100vh;
+      }
       .content-grid { grid-template-columns: 1fr; }
       /* Pricing and achievements sections: 1 column on mobile */
       #pricing .content-grid,
@@ -455,10 +561,88 @@
       .contact-message {
         grid-column: span 1;
       }
-      /* Adjust menu indentation for mobile */
-      .menu-item:hover,
-      .menu-item.active {
-        padding-left: 15px; /* Slightly less indentation on mobile */
+      
+      /* Mobile-specific styles */
+      .mobile-menu-toggle {
+        display: block;
+      }
+      
+      .mobile-scroll-indicator {
+        display: flex;
+      }
+      
+      .company-wordmark {
+        font-size: clamp(36px, 8vw, 60px);
+        letter-spacing: 4px;
+      }
+      
+      .subtitle {
+        font-size: clamp(12px, 3vw, 16px);
+        letter-spacing: 3px;
+      }
+      
+      .hero-description {
+        font-size: clamp(12px, 2vw, 14px);
+        padding: 0 15px;
+      }
+      
+      .section-title {
+        font-size: clamp(24px, 5vw, 32px);
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+      }
+      
+      .section-content {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      
+      .content-item {
+        padding: 20px;
+      }
+      
+      .content-item h3 {
+        font-size: 20px;
+      }
+      
+      .input-box {
+        width: 280px;
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+      
+      .scroll-indicator {
+        font-size: 12px;
+        bottom: 30px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .company-wordmark {
+        font-size: clamp(32px, 7vw, 48px);
+        letter-spacing: 3px;
+      }
+      
+      .subtitle {
+        font-size: clamp(10px, 2.5vw, 14px);
+        letter-spacing: 2px;
+      }
+      
+      .hero-description {
+        font-size: clamp(11px, 1.8vw, 13px);
+        max-width: 90%;
+      }
+      
+      .section-title {
+        font-size: clamp(20px, 4vw, 28px);
+      }
+      
+      .content-item {
+        padding: 15px;
+      }
+      
+      .input-box {
+        width: 250px;
       }
     }
   </style>
@@ -469,6 +653,31 @@
 
   <!-- Progress Indicator -->
   <div class="progress-indicator" id="progressIndicator"></div>
+
+  <!-- Mobile Menu Toggle -->
+  <div class="mobile-menu-toggle" id="mobileMenuToggle">☰</div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="close-drawer" id="closeDrawer">×</button>
+    <div class="menu-title">EXPLORE</div>
+    <ul class="menu-list">
+      <li class="menu-item active" data-target="home">HOME</li>
+      <li class="menu-item" data-target="websites">WEBSITES</li>
+      <li class="menu-item" data-target="company-overview">COMPANY OVERVIEW</li>
+      <li class="menu-item" data-target="mission-vision-values">MISSION, VISION & VALUES</li>
+      <li class="menu-item" data-target="products-services">PRODUCTS/SERVICES</li>
+      <li class="menu-item" data-target="pricing">PRICING PLANS</li>
+      <li class="menu-item" data-target="clients-partners">CLIENTS & PARTNERS</li>
+      <li class="menu-item" data-target="achievements-milestones">ACHIEVEMENTS & MILESTONES</li>
+      <li class="menu-item" data-target="technology-stack">TECHNOLOGY STACK</li>
+      <li class="menu-item" data-target="team-culture">TEAM & CULTURE</li>
+      <li class="menu-item" data-target="contact-info">CONTACT INFO</li>
+    </ul>
+  </div>
+
+  <!-- Mobile Scroll Indicator -->
+  <div class="mobile-scroll-indicator" id="mobileScrollIndicator"></div>
 
   <nav>
     <div class="nav-pill">
@@ -626,26 +835,25 @@
             <p><strong>Commission: 8% per order</strong></p>
           </div>
           
-          
           <div class="content-item price-plan">
-  <h4>Enterprise Plan</h4>
-  <p><strong>For Large Brands & Retail Chains</strong></p>
-  <p><strong>₹25,000+ / month</strong></p>
-  <ul class="feature-list">
-    <li>Unlimited listings</li>
-    <li>Advanced custom AI try-on</li>
-    <li>Advanced analytics</li>
-    <li>Top-priority search ranking</li>
-    <li>Premium campaigns & promotions</li>
-    <li>In-store screen integration (minimum 6 months Enterprise Plan)</li>
-    <li>API & custom integrations</li>
-    <li>Dedicated account manager</li>
-  </ul>
-  <p><strong>Commission: 12-15% per order</strong></p>
-</div>
+            <h4>Enterprise Plan</h4>
+            <p><strong>For Large Brands & Retail Chains</strong></p>
+            <p><strong>₹25,000+ / month</strong></p>
+            <ul class="feature-list">
+              <li>Unlimited listings</li>
+              <li>Advanced custom AI try-on</li>
+              <li>Advanced analytics</li>
+              <li>Top-priority search ranking</li>
+              <li>Premium campaigns & promotions</li>
+              <li>In-store screen integration (minimum 6 months Enterprise Plan)</li>
+              <li>API & custom integrations</li>
+              <li>Dedicated account manager</li>
+            </ul>
+            <p><strong>Commission: 12-15% per order</strong></p>
+          </div>
 
           <div class="content-item price-plan">
-            <h4>Pro Plan </h4>
+            <h4>Pro Plan</h4>
             <p><strong>For Growing Brands</strong></p>
             <p><strong>₹4,999 / month</strong></p>
             <ul class="feature-list">
@@ -811,7 +1019,7 @@
     </section>
   </div>
 
-  <!-- Menu Section -->
+  <!-- Menu Section (Desktop) -->
   <aside class="menu-section">
     <div class="menu-title">EXPLORE</div>
     <ul class="menu-list">
@@ -858,16 +1066,21 @@
     ];
 
     const menuItems = document.querySelectorAll('.menu-item');
+    const mobileMenuItems = document.querySelectorAll('.mobile-drawer .menu-item');
     const contentSections = document.querySelectorAll('.content-section');
     const heroSection = document.getElementById('home');
     const heroDescription = document.getElementById('heroDescription');
     const progressIndicator = document.getElementById('progressIndicator');
+    const mobileScrollIndicator = document.getElementById('mobileScrollIndicator');
     const searchInput = document.getElementById('searchInput');
     const workLink = document.getElementById('workLink');
     const contactLink = document.getElementById('contactLink');
     const navButtons = document.querySelectorAll('.nav-btn');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
 
-    // Create progress dots
+    // Create progress dots for desktop
     sections.forEach((sectionId, index) => {
       const dot = document.createElement('div');
       dot.className = 'progress-dot';
@@ -876,12 +1089,40 @@
       progressIndicator.appendChild(dot);
     });
 
+    // Create mobile scroll dots
+    sections.forEach((sectionId, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'mobile-scroll-dot';
+      dot.dataset.target = sectionId;
+      dot.title = sectionId.replace(/-/g, ' ').toUpperCase();
+      mobileScrollIndicator.appendChild(dot);
+    });
+
     const progressDots = document.querySelectorAll('.progress-dot');
+    const mobileScrollDots = document.querySelectorAll('.mobile-scroll-dot');
 
     // Show hero description after a delay
     setTimeout(() => {
       heroDescription.classList.add('visible');
     }, 1000);
+
+    // Mobile menu toggle
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileDrawer.classList.add('open');
+    });
+
+    closeDrawer.addEventListener('click', () => {
+      mobileDrawer.classList.remove('open');
+    });
+
+    // Close drawer when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileDrawer.classList.contains('open') && 
+          !mobileDrawer.contains(e.target) && 
+          e.target !== mobileMenuToggle) {
+        mobileDrawer.classList.remove('open');
+      }
+    });
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -908,7 +1149,7 @@
 
     // Update active indicators
     function updateActiveIndicator(sectionId) {
-      // Update menu items
+      // Update desktop menu items
       menuItems.forEach(item => {
         item.classList.remove('active');
         if (item.dataset.target === sectionId) {
@@ -916,8 +1157,24 @@
         }
       });
 
-      // Update progress dots
+      // Update mobile menu items
+      mobileMenuItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.target === sectionId) {
+          item.classList.add('active');
+        }
+      });
+
+      // Update desktop progress dots
       progressDots.forEach(dot => {
+        dot.classList.remove('active');
+        if (dot.dataset.target === sectionId) {
+          dot.classList.add('active');
+        }
+      });
+
+      // Update mobile scroll dots
+      mobileScrollDots.forEach(dot => {
         dot.classList.remove('active');
         if (dot.dataset.target === sectionId) {
           dot.classList.add('active');
@@ -934,10 +1191,12 @@
           behavior: 'smooth'
         });
         updateActiveIndicator(sectionId);
+        // Close mobile drawer if open
+        mobileDrawer.classList.remove('open');
       }
     }
 
-    // Menu click events
+    // Menu click events for desktop
     menuItems.forEach(item => {
       item.addEventListener('click', () => {
         const target = item.dataset.target;
@@ -945,8 +1204,24 @@
       });
     });
 
-    // Progress dots click events
+    // Menu click events for mobile
+    mobileMenuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        scrollToSection(target);
+      });
+    });
+
+    // Progress dots click events for desktop
     progressDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = dot.dataset.target;
+        scrollToSection(target);
+      });
+    });
+
+    // Scroll dots click events for mobile
+    mobileScrollDots.forEach(dot => {
       dot.addEventListener('click', () => {
         const target = dot.dataset.target;
         scrollToSection(target);
