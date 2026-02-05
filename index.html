@@ -127,7 +127,7 @@
     /* Menu section on hero - UPDATED FOR INDENTATION */
     .menu-section { 
       position: fixed; 
-      left: 20px; 
+      left: 60px; /* Moved right to make space for scroll indicator */
       top: 50%; 
       transform: translateY(-50%); 
       z-index: 10; 
@@ -184,8 +184,6 @@
     .mobile-menu-toggle {
       display: none;
       position: fixed;
-      top: 20px;
-      left: 20px;
       z-index: 1001;
       background: rgba(255,255,255,0.1);
       border: 2px solid rgba(255,255,255,0.2);
@@ -244,6 +242,41 @@
       color: #fff;
       font-size: 24px;
       cursor: pointer;
+    }
+
+    /* Desktop Scroll Indicator (NEW) */
+    .desktop-scroll-indicator {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 10px 5px;
+      backdrop-filter: blur(8px);
+    }
+
+    .desktop-scroll-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .desktop-scroll-dot.active {
+      background: rgba(255,255,255,0.9);
+      transform: scale(1.2);
+    }
+
+    .desktop-scroll-indicator:hover {
+      background: rgba(255,255,255,0.15);
     }
 
     /* Mobile scroll indicator */
@@ -334,7 +367,7 @@
 
     /* Make pricing and achievements sections show 3 columns side by side */
     #pricing .content-grid,
-    #achievements-milestones .content-grid {
+    #progress .content-grid {
       grid-template-columns: repeat(3, 1fr);
     }
 
@@ -522,9 +555,9 @@
       .logo-mark { max-height: 50vh; }
       .subtitle { top: calc(50% + 32vh); letter-spacing:6px; }
       .progress-indicator { right: 15px; }
-      /* Pricing and achievements sections: 2 columns on tablet */
+      /* Pricing and progress sections: 2 columns on tablet */
       #pricing .content-grid,
-      #achievements-milestones .content-grid {
+      #progress .content-grid {
         grid-template-columns: repeat(2, 1fr);
       }
       .contact-message {
@@ -533,10 +566,81 @@
     }
 
     @media (max-width: 768px) {
-      nav, .project-nav{ right:18px; top:18px; }
+      .hero {
+        padding-top: 150px; /* Increased padding for mobile header */
+      }
+      
+      .company-wordmark {
+        margin-top: 0; /* Reset for mobile */
+      }
+      
+      /* Mobile header container */
+      .mobile-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      nav, .project-nav{ 
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        display: none; /* Hide desktop nav in mobile */
+      }
+      
+      .mobile-header .nav-pill {
+        padding: 6px 12px;
+        gap: 12px;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        display: flex;
+        margin: 0;
+      }
+      
+      .mobile-header .nav-link {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+      
+      .mobile-header .project-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin: 0;
+      }
+      
+      .mobile-header .project-title {
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+      }
+      
+      .mobile-header .nav-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        background: rgba(255,255,255,0.05);
+      }
+      
       .menu-section { 
         display: none; /* Hide desktop menu on mobile */
       }
+      
       .input-section { left: 18px; bottom: 32px; }
       .butterfly { opacity: 0.12; width: min(80%, 420px); }
       .logo-mark { max-height: 44vh; width: auto; }
@@ -546,9 +650,9 @@
         min-height: 100vh;
       }
       .content-grid { grid-template-columns: 1fr; }
-      /* Pricing and achievements sections: 1 column on mobile */
+      /* Pricing and progress sections: 1 column on mobile */
       #pricing .content-grid,
-      #achievements-milestones .content-grid {
+      #progress .content-grid {
         grid-template-columns: 1fr;
       }
       #pricing .content-item:nth-child(2) {
@@ -565,10 +669,20 @@
       /* Mobile-specific styles */
       .mobile-menu-toggle {
         display: block;
+        top: 20px;
+        left: 20px;
+        right: auto;
+        z-index: 1003;
+        background: rgba(255,255,255,0.15);
       }
       
       .mobile-scroll-indicator {
         display: flex;
+      }
+      
+      /* Hide desktop scroll indicator on mobile */
+      .desktop-scroll-indicator {
+        display: none;
       }
       
       .company-wordmark {
@@ -618,9 +732,41 @@
     }
     
     @media (max-width: 480px) {
+      .hero {
+        padding-top: 140px;
+      }
+      
       .company-wordmark {
         font-size: clamp(32px, 7vw, 48px);
         letter-spacing: 3px;
+      }
+      
+      .mobile-header .nav-pill {
+        padding: 5px 10px;
+        gap: 10px;
+      }
+      
+      .mobile-header .nav-link {
+        font-size: 10px;
+      }
+      
+      .mobile-header .project-nav {
+        padding: 5px 8px;
+      }
+      
+      .mobile-header .project-title {
+        font-size: 10px;
+        max-width: 120px;
+      }
+      
+      .mobile-header .nav-btn {
+        padding: 3px 6px;
+        font-size: 9px;
+      }
+      
+      .mobile-menu-toggle {
+        padding: 10px;
+        font-size: 16px;
       }
       
       .subtitle {
@@ -645,17 +791,47 @@
         width: 250px;
       }
     }
+    
+    /* Desktop scroll indicator visible only on desktop */
+    @media (min-width: 769px) {
+      .desktop-scroll-indicator {
+        display: flex;
+      }
+      
+      .mobile-header {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="particles" id="particles"></div>
   <div class="scanline"></div>
 
+  <!-- Desktop Scroll Indicator (NEW) -->
+  <div class="desktop-scroll-indicator" id="desktopScrollIndicator"></div>
+
   <!-- Progress Indicator -->
   <div class="progress-indicator" id="progressIndicator"></div>
 
-  <!-- Mobile Menu Toggle -->
-  <div class="mobile-menu-toggle" id="mobileMenuToggle">☰</div>
+  <!-- Mobile Header (NEW - for mobile only) -->
+  <div class="mobile-header">
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">☰</div>
+    
+    <div class="project-nav">
+      <button class="nav-btn">&lt;&lt;</button>
+      <span class="project-title">RARITONE PLATFORM</span>
+      <button class="nav-btn">&gt;&gt;</button>
+    </div>
+    
+    <nav>
+      <div class="nav-pill">
+        <a class="nav-link" id="workLinkMobile">WORK</a>
+        <div class="nav-divider"></div>
+        <a class="nav-link" id="contactLinkMobile">CONTACT</a>
+      </div>
+    </nav>
+  </div>
 
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer" id="mobileDrawer">
@@ -665,11 +841,11 @@
       <li class="menu-item active" data-target="home">HOME</li>
       <li class="menu-item" data-target="websites">WEBSITES</li>
       <li class="menu-item" data-target="company-overview">COMPANY OVERVIEW</li>
-      <li class="menu-item" data-target="mission-vision-values">MISSION, VISION & VALUES</li>
+      <li class="menu-item" data-target="purpose">PURPOSE</li>
       <li class="menu-item" data-target="products-services">PRODUCTS/SERVICES</li>
       <li class="menu-item" data-target="pricing">PRICING PLANS</li>
       <li class="menu-item" data-target="clients-partners">CLIENTS & PARTNERS</li>
-      <li class="menu-item" data-target="achievements-milestones">ACHIEVEMENTS & MILESTONES</li>
+      <li class="menu-item" data-target="progress">PROGRESS</li>
       <li class="menu-item" data-target="technology-stack">TECHNOLOGY STACK</li>
       <li class="menu-item" data-target="team-culture">TEAM & CULTURE</li>
       <li class="menu-item" data-target="contact-info">CONTACT INFO</li>
@@ -764,9 +940,9 @@
       </div>
     </section>
 
-    <section class="content-section" id="mission-vision-values">
+    <section class="content-section" id="purpose">
       <div class="section-content">
-        <h2 class="section-title">MISSION, VISION & VALUES</h2>
+        <h2 class="section-title">PURPOSE</h2>
         <div class="content-grid" id="values-content">
           <div class="content-item">
             <h3>Mission</h3>
@@ -903,9 +1079,9 @@
       </div>
     </section>
 
-    <section class="content-section" id="achievements-milestones">
+    <section class="content-section" id="progress">
       <div class="section-content">
-        <h2 class="section-title">ACHIEVEMENTS & MILESTONES</h2>
+        <h2 class="section-title">PROGRESS</h2>
         <div class="content-grid" id="achievements-content">
           <div class="content-item">
             <h3>Platform Development</h3>
@@ -1026,11 +1202,11 @@
       <li class="menu-item active" data-target="home">HOME</li>
       <li class="menu-item" data-target="websites">WEBSITES</li>
       <li class="menu-item" data-target="company-overview">COMPANY OVERVIEW</li>
-      <li class="menu-item" data-target="mission-vision-values">MISSION, VISION & VALUES</li>
+      <li class="menu-item" data-target="purpose">PURPOSE</li>
       <li class="menu-item" data-target="products-services">PRODUCTS/SERVICES</li>
       <li class="menu-item" data-target="pricing">PRICING PLANS</li>
       <li class="menu-item" data-target="clients-partners">CLIENTS & PARTNERS</li>
-      <li class="menu-item" data-target="achievements-milestones">ACHIEVEMENTS & MILESTONES</li>
+      <li class="menu-item" data-target="progress">PROGRESS</li>
       <li class="menu-item" data-target="technology-stack">TECHNOLOGY STACK</li>
       <li class="menu-item" data-target="team-culture">TEAM & CULTURE</li>
       <li class="menu-item" data-target="contact-info">CONTACT INFO</li>
@@ -1058,23 +1234,26 @@
       particlesContainer.appendChild(p);
     }
 
-    // Section configuration
+    // Section configuration - UPDATED WITH NEW SECTION NAMES
     const sections = [
-      'home', 'websites', 'company-overview', 'mission-vision-values', 
+      'home', 'websites', 'company-overview', 'purpose', 
       'products-services', 'pricing', 'clients-partners', 
-      'achievements-milestones', 'technology-stack', 'team-culture', 'contact-info'
+      'progress', 'technology-stack', 'team-culture', 'contact-info'
     ];
 
-    const menuItems = document.querySelectorAll('.menu-item');
+    const menuItems = document.querySelectorAll('.menu-section .menu-item');
     const mobileMenuItems = document.querySelectorAll('.mobile-drawer .menu-item');
     const contentSections = document.querySelectorAll('.content-section');
     const heroSection = document.getElementById('home');
     const heroDescription = document.getElementById('heroDescription');
     const progressIndicator = document.getElementById('progressIndicator');
     const mobileScrollIndicator = document.getElementById('mobileScrollIndicator');
+    const desktopScrollIndicator = document.getElementById('desktopScrollIndicator');
     const searchInput = document.getElementById('searchInput');
     const workLink = document.getElementById('workLink');
     const contactLink = document.getElementById('contactLink');
+    const workLinkMobile = document.getElementById('workLinkMobile');
+    const contactLinkMobile = document.getElementById('contactLinkMobile');
     const navButtons = document.querySelectorAll('.nav-btn');
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const mobileDrawer = document.getElementById('mobileDrawer');
@@ -1098,8 +1277,18 @@
       mobileScrollIndicator.appendChild(dot);
     });
 
+    // Create desktop scroll indicator dots
+    sections.forEach((sectionId, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'desktop-scroll-dot';
+      dot.dataset.target = sectionId;
+      dot.title = sectionId.replace(/-/g, ' ').toUpperCase();
+      desktopScrollIndicator.appendChild(dot);
+    });
+
     const progressDots = document.querySelectorAll('.progress-dot');
     const mobileScrollDots = document.querySelectorAll('.mobile-scroll-dot');
+    const desktopScrollDots = document.querySelectorAll('.desktop-scroll-dot');
 
     // Show hero description after a delay
     setTimeout(() => {
@@ -1180,6 +1369,14 @@
           dot.classList.add('active');
         }
       });
+
+      // Update desktop scroll dots
+      desktopScrollDots.forEach(dot => {
+        dot.classList.remove('active');
+        if (dot.dataset.target === sectionId) {
+          dot.classList.add('active');
+        }
+      });
     }
 
     // Scroll to section function
@@ -1228,9 +1425,21 @@
       });
     });
 
-    // Nav links
-    workLink.addEventListener('click', () => scrollToSection('products-services'));
-    contactLink.addEventListener('click', () => scrollToSection('contact-info'));
+    // Desktop scroll dots click events
+    desktopScrollDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = dot.dataset.target;
+        scrollToSection(target);
+      });
+    });
+
+    // Nav links for desktop
+    if (workLink) workLink.addEventListener('click', () => scrollToSection('products-services'));
+    if (contactLink) contactLink.addEventListener('click', () => scrollToSection('contact-info'));
+    
+    // Nav links for mobile
+    if (workLinkMobile) workLinkMobile.addEventListener('click', () => scrollToSection('products-services'));
+    if (contactLinkMobile) contactLinkMobile.addEventListener('click', () => scrollToSection('contact-info'));
 
     // Navigation buttons
     navButtons.forEach(btn => {
@@ -1262,7 +1471,7 @@
       });
     });
 
-    // Search functionality
+    // Search functionality - UPDATED WITH NEW SECTION NAMES
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' && searchInput.value.trim()) {
         const query = searchInput.value.toLowerCase();
@@ -1279,9 +1488,10 @@
           'service': 'products-services',
           'company': 'company-overview',
           'about': 'company-overview',
-          'mission': 'mission-vision-values',
-          'vision': 'mission-vision-values',
-          'value': 'mission-vision-values',
+          'mission': 'purpose',
+          'vision': 'purpose',
+          'value': 'purpose',
+          'purpose': 'purpose',
           'client': 'clients-partners',
           'partner': 'clients-partners',
           'tech': 'technology-stack',
@@ -1291,8 +1501,9 @@
           'culture': 'team-culture',
           'website': 'websites',
           'platform': 'websites',
-          'achievement': 'achievements-milestones',
-          'milestone': 'achievements-milestones'
+          'achievement': 'progress',
+          'milestone': 'progress',
+          'progress': 'progress'
         };
         
         let foundSection = null;
@@ -1307,7 +1518,7 @@
           scrollToSection(foundSection);
           searchInput.value = '';
         } else {
-          alert(`Searching for: "${query}"\n\nTry searching for: pricing, contact, products, company, mission, clients, technology, team, websites, achievements`);
+          alert(`Searching for: "${query}"\n\nTry searching for: pricing, contact, products, company, purpose, clients, technology, team, websites, progress`);
         }
       }
     });
